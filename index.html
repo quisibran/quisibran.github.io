@@ -29,7 +29,9 @@
         }
 
         .team {
+            flex-grow: 1; /* Distribute available space equally among teams */
             display: flex;
+            flex-direction: column;
             align-items: center;
         }
 
@@ -37,14 +39,16 @@
             font-family: 'Bebas Neue', sans-serif; /* Added Bebas Neue font */
             color: white; /* Set font color to white for visibility */
             margin-right: 10px;
+            width: 100%; /* Fill the available width */
+            font-size: 95px; /* Updated font size to 95px */
         }
 
         .logo {
-            max-width: 50px; /* Adjust the size of the logo */
+            height: 96px; /* Fixed height */
+            width: auto; /* Maintain aspect ratio */
         }
 
         .score {
-            font-size: 2em;
             font-weight: bold;
         }
 
@@ -65,14 +69,14 @@
 <div id="scoreboard">
     <div class="team" id="teamVOYAGERS">
         <img src="" alt="Voyagers Logo" class="logo" id="voyagersLogo"> <!-- Initially empty, will be updated dynamically -->
-        <h2>VOYAGERS</h2>
-        <p class="score" id="scoreVOYAGERS">0</p>
+        <h2 style="font-size: 95px;">VOYAGERS</h2>
+        <p class="score" id="scoreVOYAGERS" style="font-size: 95px;">0</p>
     </div>
 
     <div class="team" id="teamVISITORS">
         <img src="" alt="Visitors Logo" class="logo" id="visitorsLogo"> <!-- Initially empty, will be updated dynamically -->
-        <h2>VISITORS</h2>
-        <p class="score" id="scoreVISITORS">0</p>
+        <h2 style="font-size: 95px;">VISITORS</h2>
+        <p class="score" id="scoreVISITORS" style="font-size: 95px;">0</p>
     </div>
 </div>
 
@@ -97,47 +101,7 @@
 </div>
 
 <script>
-    function updateScore(teamId) {
-        const newScore = document.getElementById(`team${teamId}Score`).value;
-        document.getElementById(`score${teamId}`).textContent = newScore;
-    }
-
-    function insertLogo(teamId) {
-        const fileInput = document.getElementById(`logoFile${teamId}`);
-        const selectedFile = fileInput.files[0];
-
-        if (selectedFile) {
-            const reader = new FileReader();
-
-            reader.onload = function (e) {
-                const logoSrc = e.target.result;
-
-                if (logoSrc && selectedFile.type.startsWith('image/')) {
-                    const logoElement = document.getElementById(`${teamId.toLowerCase()}Logo`);
-                    if (logoElement) {
-                        logoElement.src = logoSrc;
-                    }
-                } else {
-                    alert('Invalid file format. Please choose an image file.');
-                }
-            };
-
-            reader.readAsDataURL(selectedFile);
-        } else {
-            alert('Please choose a file before inserting a logo.');
-        }
-    }
-
-    function deleteLogos(teamId) {
-        // Remove logo from the respective team element
-        const logoElement = document.getElementById(`${teamId.toLowerCase()}Logo`);
-
-        if (logoElement) {
-            logoElement.src = '';
-        }
-    }
-</script>
-
-</body>
-</html>
-
+    // Retrieve scores from localStorage on page load
+    window.onload = function () {
+        const storedScoreVOYAGERS = localStorage.getItem('scoreVOYAGERS') || '0';
+        const storedScoreVISITORS = localStorage.getItem('scoreVISITORS') || '0';
