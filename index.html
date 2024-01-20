@@ -64,26 +64,36 @@
 
 <div id="scoreboard">
     <div class="team" id="teamVOYAGERS">
+        <img src="" alt="Voyagers Logo" class="logo" id="voyagersLogo"> <!-- Initially empty, will be updated dynamically -->
         <h2>VOYAGERS</h2>
         <p class="score" id="scoreVOYAGERS">0</p>
     </div>
 
     <div class="team" id="teamVISITORS">
+        <img src="" alt="Visitors Logo" class="logo" id="visitorsLogo"> <!-- Initially empty, will be updated dynamically -->
         <h2>VISITORS</h2>
         <p class="score" id="scoreVISITORS">0</p>
     </div>
 </div>
 
-<div id="controls">
+<div id="controlsVOYAGERS">
     <label for="teamVOYAGERSScore">VOYAGERS Score:</label>
     <input type="number" id="teamVOYAGERSScore" min="0" value="0">
     <button onclick="updateScore('VOYAGERS')">Update VOYAGERS</button>
 
+    <input type="file" id="logoFileVOYAGERS" accept="image/*">
+    <button onclick="insertLogo('VOYAGERS')">Insert Logo VOYAGERS</button>
+    <button onclick="deleteLogos('VOYAGERS')">Delete Logo VOYAGERS</button>
+</div>
+
+<div id="controlsVISITORS">
     <label for="teamVISITORSScore">VISITORS Score:</label>
     <input type="number" id="teamVISITORSScore" min="0" value="0">
     <button onclick="updateScore('VISITORS')">Update VISITORS</button>
 
-    <button onclick="insertLogos()">Insert Logos</button>
+    <input type="file" id="logoFileVISITORS" accept="image/*">
+    <button onclick="insertLogo('VISITORS')">Insert Logo VISITORS</button>
+    <button onclick="deleteLogos('VISITORS')">Delete Logo VISITORS</button>
 </div>
 
 <script>
@@ -92,25 +102,39 @@
         document.getElementById(`score${teamId}`).textContent = newScore;
     }
 
-    function insertLogos() {
-        // Replace with the actual paths to your logo images
-        const voyagersLogoPath = "path/to/voyagers_logo.png";
-        const visitorsLogoPath = "path/to/visitors_logo.png";
+    function insertLogo(teamId) {
+        const fileInput = document.getElementById(`logoFile${teamId}`);
+        const selectedFile = fileInput.files[0];
 
-        // Create logo elements
-        const voyagersLogo = document.createElement("img");
-        voyagersLogo.src = voyagersLogoPath;
-        voyagersLogo.alt = "Voyagers Logo";
-        voyagersLogo.className = "logo";
+        if (selectedFile) {
+            const reader = new FileReader();
 
-        const visitorsLogo = document.createElement("img");
-        visitorsLogo.src = visitorsLogoPath;
-        visitorsLogo.alt = "Visitors Logo";
-        visitorsLogo.className = "logo";
+            reader.onload = function (e) {
+                const logoSrc = e.target.result;
 
-        // Append logos to the respective team elements
-        document.getElementById("teamVOYAGERS").prepend(voyagersLogo);
-        document.getElementById("teamVISITORS").prepend(visitorsLogo);
+                if (logoSrc && selectedFile.type.startsWith('image/')) {
+                    const logoElement = document.getElementById(`${teamId.toLowerCase()}Logo`);
+                    if (logoElement) {
+                        logoElement.src = logoSrc;
+                    }
+                } else {
+                    alert('Invalid file format. Please choose an image file.');
+                }
+            };
+
+            reader.readAsDataURL(selectedFile);
+        } else {
+            alert('Please choose a file before inserting a logo.');
+        }
+    }
+
+    function deleteLogos(teamId) {
+        // Remove logo from the respective team element
+        const logoElement = document.getElementById(`${teamId.toLowerCase()}Logo`);
+
+        if (logoElement) {
+            logoElement.src = '';
+        }
     }
 </script>
 
