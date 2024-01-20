@@ -21,21 +21,31 @@
             padding: 0;
             border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: #f9f9f9;
+            background-color: #2A407D; /* Updated to hex code #2A407D */
             display: flex;
             justify-content: space-around;
             align-items: center;
+            font-family: 'Bebas Neue', sans-serif; /* Added Bebas Neue font */
         }
 
         .team {
-            display: inline-block;
-            font-family: sans-serif;
+            display: flex;
+            align-items: center;
+        }
+
+        h2, .score {
+            font-family: 'Bebas Neue', sans-serif; /* Added Bebas Neue font */
+            color: white; /* Set font color to white for visibility */
+            margin-right: 10px;
+        }
+
+        .logo {
+            max-width: 50px; /* Adjust the size of the logo */
         }
 
         .score {
             font-size: 2em;
             font-weight: bold;
-            font-family: sans-serif;
         }
 
         #controls {
@@ -48,6 +58,7 @@
             font-family: sans-serif;
         }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -71,13 +82,35 @@
     <label for="teamVISITORSScore">VISITORS Score:</label>
     <input type="number" id="teamVISITORSScore" min="0" value="0">
     <button onclick="updateScore('VISITORS')">Update VISITORS</button>
+
+    <button onclick="insertLogos()">Insert Logos</button>
 </div>
 
 <script>
-    // Function to update the score for a given team
     function updateScore(teamId) {
         const newScore = document.getElementById(`team${teamId}Score`).value;
         document.getElementById(`score${teamId}`).textContent = newScore;
+    }
+
+    function insertLogos() {
+        // Replace with the actual paths to your logo images
+        const voyagersLogoPath = "path/to/voyagers_logo.png";
+        const visitorsLogoPath = "path/to/visitors_logo.png";
+
+        // Create logo elements
+        const voyagersLogo = document.createElement("img");
+        voyagersLogo.src = voyagersLogoPath;
+        voyagersLogo.alt = "Voyagers Logo";
+        voyagersLogo.className = "logo";
+
+        const visitorsLogo = document.createElement("img");
+        visitorsLogo.src = visitorsLogoPath;
+        visitorsLogo.alt = "Visitors Logo";
+        visitorsLogo.className = "logo";
+
+        // Append logos to the respective team elements
+        document.getElementById("teamVOYAGERS").prepend(voyagersLogo);
+        document.getElementById("teamVISITORS").prepend(visitorsLogo);
     }
 </script>
 
