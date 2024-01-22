@@ -15,50 +15,46 @@
         }
 
         #scoreboard {
-            width: 1920px;
+            width: 100%;
             height: 100px;
             margin: 0;
             padding: 0;
             border: 1px solid #ccc;
             border-radius: 10px;
-            background-color: #2A407D; /* Updated to hex code #2A407D */
+            background-color: #2A407D;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            font-family: 'Bebas Neue', sans-serif; /* Added Bebas Neue font */
+            font-family: 'Bebas Neue', sans-serif;
+            color: white;
         }
 
         .team {
-            flex-grow: 1; /* Distribute available space equally among teams */
+            display: inline-block;
+            font-family: sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
         }
 
         h2, .score {
-            font-family: 'Bebas Neue', sans-serif; /* Added Bebas Neue font */
-            color: white; /* Set font color to white for visibility */
+            font-family: 'Bebas Neue', sans-serif;
+            color: white;
             margin-right: 10px;
-            width: 100%; /* Fill the available width */
-            font-size: 95px; /* Updated font size to 95px */
         }
 
         .logo {
-            height: 96px; /* Fixed height */
-            width: auto; /* Maintain aspect ratio */
+            max-width: 50px;
+            margin-right: 10px;
         }
 
         .score {
+            font-size: 2em;
             font-weight: bold;
+            font-family: sans-serif;
         }
 
         #controls {
             margin-top: 20px;
-        }
-
-        input, button {
-            font-size: 1em;
-            margin: 5px;
             font-family: sans-serif;
         }
     </style>
@@ -67,41 +63,59 @@
 <body>
 
 <div id="scoreboard">
-    <div class="team" id="teamVOYAGERS">
-        <img src="" alt="Voyagers Logo" class="logo" id="voyagersLogo"> <!-- Initially empty, will be updated dynamically -->
-        <h2 style="font-size: 95px;">VOYAGERS</h2>
-        <p class="score" id="scoreVOYAGERS" style="font-size: 95px;">0</p>
+    <div id="teamA" class="team">
+        <h2>VOYAGERS</h2>
+        <img src="https://via.placeholder.com/50" alt="Voyagers Logo" class="logo">
+        <span class="score" id="scoreA">0</span>
     </div>
 
-    <div class="team" id="teamVISITORS">
-        <img src="" alt="Visitors Logo" class="logo" id="visitorsLogo"> <!-- Initially empty, will be updated dynamically -->
-        <h2 style="font-size: 95px;">VISITORS</h2>
-        <p class="score" id="scoreVISITORS" style="font-size: 95px;">0</p>
+    <div id="teamB" class="team">
+        <h2>VISITORS</h2>
+        <img src="https://via.placeholder.com/50" alt="Visitors Logo" class="logo">
+        <span class="score" id="scoreB">0</span>
     </div>
 </div>
 
-<div id="controlsVOYAGERS">
-    <label for="teamVOYAGERSScore">VOYAGERS Score:</label>
-    <input type="number" id="teamVOYAGERSScore" min="0" value="0">
-    <button onclick="updateScore('VOYAGERS')">Update VOYAGERS</button>
+<div id="controls">
+    <label for="teamAScore">VOYAGERS Score:</label>
+    <input type="number" id="teamAScore" min="0" value="0">
+    <button onclick="updateScore('A')">Update VOYAGERS</button>
 
-    <input type="file" id="logoFileVOYAGERS" accept="image/*">
-    <button onclick="insertLogo('VOYAGERS')">Insert Logo VOYAGERS</button>
-    <button onclick="deleteLogos('VOYAGERS')">Delete Logo VOYAGERS</button>
-</div>
+    <label for="teamBScore">VISITORS Score:</label>
+    <input type="number" id="teamBScore" min="0" value="0">
+    <button onclick="updateScore('B')">Update VISITORS</button>
 
-<div id="controlsVISITORS">
-    <label for="teamVISITORSScore">VISITORS Score:</label>
-    <input type="number" id="teamVISITORSScore" min="0" value="0">
-    <button onclick="updateScore('VISITORS')">Update VISITORS</button>
-
-    <input type="file" id="logoFileVISITORS" accept="image/*">
-    <button onclick="insertLogo('VISITORS')">Insert Logo VISITORS</button>
-    <button onclick="deleteLogos('VISITORS')">Delete Logo VISITORS</button>
+    <button onclick="insertLogos()">Insert Logos</button>
 </div>
 
 <script>
-    // Retrieve scores from localStorage on page load
-    window.onload = function () {
-        const storedScoreVOYAGERS = localStorage.getItem('scoreVOYAGERS') || '0';
-        const storedScoreVISITORS = localStorage.getItem('scoreVISITORS') || '0';
+    // Function to update the score for a given team
+    function updateScore(teamId) {
+        const newScore = document.getElementById(`team${teamId}Score`).value;
+        document.getElementById(`score${teamId}`).textContent = newScore;
+    }
+
+    function insertLogos() {
+        // Placeholder URLs for logos
+        const voyagersLogoPath = "https://via.placeholder.com/50";
+        const visitorsLogoPath = "https://via.placeholder.com/50";
+
+        // Create logo elements
+        const voyagersLogo = document.createElement("img");
+        voyagersLogo.src = voyagersLogoPath;
+        voyagersLogo.alt = "Voyagers Logo";
+        voyagersLogo.className = "logo";
+
+        const visitorsLogo = document.createElement("img");
+        visitorsLogo.src = visitorsLogoPath;
+        visitorsLogo.alt = "Visitors Logo";
+        visitorsLogo.className = "logo";
+
+        // Append logos to the respective team elements
+        document.getElementById("teamA").prepend(voyagersLogo);
+        document.getElementById("teamB").prepend(visitorsLogo);
+    }
+</script>
+
+</body>
+</html>
